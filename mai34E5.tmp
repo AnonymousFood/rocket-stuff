@@ -1,13 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://co12a3p215utd"]
+[gd_scene load_steps=15 format=3 uid="uid://co12a3p215utd"]
 
 [ext_resource type="ArrayMesh" uid="uid://dghg1el44b4mg" path="res://Mesh/grass.res" id="1_mmely"]
 [ext_resource type="Script" path="res://rocket.gd" id="2_ia13s"]
 [ext_resource type="PackedScene" uid="uid://bmubawhj53oaa" path="res://rocket.blend" id="3_elmw8"]
-[ext_resource type="Script" path="res://thruster_particles.gd" id="3_n1x33"]
-[ext_resource type="Script" path="res://ground_camera.gd" id="4_dak2l"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_mg6rl"]
-size = Vector3(22.6951, 1, 21.144)
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_egxya"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_prkqb"]
 size = Vector2(10, 10)
@@ -27,7 +24,7 @@ radius = 1.0
 
 [sub_resource type="Gradient" id="Gradient_ohpla"]
 offsets = PackedFloat32Array(0, 0.518182, 1)
-colors = PackedColorArray(0.649337, 0.00104078, 0.764744, 1, 0.8505, 0.61, 1, 1, 0.892333, 0.62, 1, 0)
+colors = PackedColorArray(1, 0.501961, 0, 1, 1, 1, 0.501961, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_d0smq"]
 gradient = SubResource("Gradient_ohpla")
@@ -42,16 +39,8 @@ linear_accel_min = -2.0
 linear_accel_max = -2.0
 color_ramp = SubResource("GradientTexture1D_d0smq")
 collision_mode = 1
-collision_friction = 1.0
+collision_friction = 0.0
 collision_bounce = 0.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0evy7"]
-transparency = 1
-shading_mode = 0
-vertex_color_use_as_albedo = true
-
-[sub_resource type="SphereMesh" id="SphereMesh_87v3g"]
-material = SubResource("StandardMaterial3D_0evy7")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sa4mp"]
 sky_top_color = Color(0, 0.286275, 0.54902, 1)
@@ -70,8 +59,7 @@ sky = SubResource("Sky_g8buv")
 [node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="GroundCollision" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286743, -0.638341, -1.93539)
-shape = SubResource("BoxShape3D_mg6rl")
+shape = SubResource("WorldBoundaryShape3D_egxya")
 
 [node name="GroundModel" type="MeshInstance3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.013135, 0.01928, -0.00223351)
@@ -79,68 +67,32 @@ mesh = SubResource("PlaneMesh_prkqb")
 surface_material_override/0 = SubResource("StandardMaterial3D_i2geq")
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="Ground"]
-transform = Transform3D(0.954271, -0.0688085, 0.0855033, 0.0922611, 0.711493, 0.00858619, -0.0829717, -0.000227274, 0.992935, 0, 0, 0)
+transform = Transform3D(0.986375, -0.140658, 0.0853201, 0.140107, 0.990058, 0.0124414, -0.0862218, -0.000317949, 0.996276, 0, 0, 0)
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_v2jb5")
 
-[node name="Rocket" type="CharacterBody3D" parent="."]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 script = ExtResource("2_ia13s")
 
-[node name="RocketCollision" type="CollisionShape3D" parent="Rocket"]
+[node name="RocketCollision" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
 shape = SubResource("CylinderShape3D_hpl6m")
 
-[node name="RocketModel" type="MeshInstance3D" parent="Rocket"]
+[node name="RocketModel" type="MeshInstance3D" parent="CharacterBody3D"]
 
-[node name="rocket" parent="Rocket" instance=ExtResource("3_elmw8")]
+[node name="Thruster" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06263, 0)
+
+[node name="ThrusterParticles" type="GPUParticles3D" parent="CharacterBody3D/Thruster"]
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_n2pvn")
+
+[node name="rocket" parent="CharacterBody3D" instance=ExtResource("3_elmw8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0147158, 4.30826, -0.0287523)
 
-[node name="Thruster" type="Node3D" parent="Rocket/rocket"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
-
-[node name="ThrusterParticles" type="GPUParticles3D" parent="Rocket/rocket/Thruster"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
-amount = 100
-lifetime = 0.75
-collision_base_size = 1.0
-process_material = SubResource("ParticleProcessMaterial_n2pvn")
-draw_pass_1 = SubResource("SphereMesh_87v3g")
-script = ExtResource("3_n1x33")
-
-[node name="rocket3" parent="Rocket" instance=ExtResource("3_elmw8")]
-transform = Transform3D(0.588784, 0, 0, 0, 0.80274, 0, 0, 0, 0.588784, -1.55182, 3.55961, -0.0361089)
-
-[node name="Thruster" type="Node3D" parent="Rocket/rocket3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
-
-[node name="ThrusterParticles" type="GPUParticles3D" parent="Rocket/rocket3/Thruster"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
-amount = 100
-lifetime = 0.75
-collision_base_size = 1.0
-process_material = SubResource("ParticleProcessMaterial_n2pvn")
-draw_pass_1 = SubResource("SphereMesh_87v3g")
-script = ExtResource("3_n1x33")
-
-[node name="rocket4" parent="Rocket" instance=ExtResource("3_elmw8")]
-transform = Transform3D(0.588784, 0, 0, 0, 0.80274, 0, 0, 0, 0.588784, 1.61399, 3.55961, -0.0361089)
-
-[node name="Thruster" type="Node3D" parent="Rocket/rocket4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
-
-[node name="ThrusterParticles" type="GPUParticles3D" parent="Rocket/rocket4/Thruster"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
-amount = 100
-lifetime = 0.75
-collision_base_size = 1.0
-process_material = SubResource("ParticleProcessMaterial_n2pvn")
-draw_pass_1 = SubResource("SphereMesh_87v3g")
-script = ExtResource("3_n1x33")
-
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.726652, -0.629104, 0.276052, 0.631359, 0.769931, 0.0926952, -0.270856, 0.106931, 0.956662, -0.0026474, 2.63398, 5.25929)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0026474, 2.63398, 5.25929)
 current = true
-script = ExtResource("4_dak2l")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.132032, -0.622146, 0.771688, 0.104921, 0.782901, 0.613235, -0.985677, 0, 0.168644, 6.69822, 4.90203, 0)
