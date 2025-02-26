@@ -1,3 +1,39 @@
-[gd_scene format=3 uid="uid://co12a3p215utd"]
+[gd_scene load_steps=2 format=3 uid="uid://co12a3p215utd"]
+
+[ext_resource type="Script" path="res://rocket.gd" id="1_vg2tn"]
 
 [node name="Main" type="Node3D"]
+
+[node name="Rocket" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("1_vg2tn")
+
+[node name="RocketBody" type="CSGCylinder3D" parent="Rocket"]
+height = 4.0
+sides = 16
+
+[node name="RocketNose" type="CSGCone3D" parent="Rocket"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+height = 1.0
+sides = 16
+script = null
+
+[node name="LaunchPad" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+size = Vector3(5, 0.2, 5)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 4, 10)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 5, 0)
+shadow_enabled = true
