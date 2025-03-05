@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://co12a3p215utd"]
+[gd_scene load_steps=20 format=3 uid="uid://co12a3p215utd"]
 
 [ext_resource type="ArrayMesh" uid="uid://dghg1el44b4mg" path="res://Mesh/grass.res" id="1_mmely"]
 [ext_resource type="Script" path="res://rocket.gd" id="2_ia13s"]
 [ext_resource type="PackedScene" uid="uid://bmubawhj53oaa" path="res://rocket.blend" id="3_elmw8"]
 [ext_resource type="Script" path="res://thruster_particles.gd" id="3_n1x33"]
 [ext_resource type="Script" path="res://ground_camera.gd" id="4_dak2l"]
+[ext_resource type="PackedScene" uid="uid://celfgor8twflr" path="res://lowpoly_windmill.glb" id="6_t5nil"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mg6rl"]
 size = Vector3(22.6951, 1, 21.144)
@@ -147,3 +148,6 @@ transform = Transform3D(0.132032, -0.622146, 0.771688, 0.104921, 0.782901, 0.613
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jfiun")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("6_t5nil")]
+transform = Transform3D(0.240043, 0, 0.438611, 0, 0.5, 0, -0.438611, 0, 0.240043, 6.38183, 0.132677, -1.0928)
