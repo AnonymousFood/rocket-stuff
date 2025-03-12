@@ -1,0 +1,118 @@
+[gd_scene load_steps=11 format=3 uid="uid://6aj81sli2e32"]
+
+[ext_resource type="Script" path="res://control_room.gd" id="1_vintg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_desk"]
+size = Vector3(4, 0.1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_desk"]
+albedo_color = Color(0.3, 0.2, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_stand"]
+size = Vector3(0.1, 0.3, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stand"]
+albedo_color = Color(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bezel"]
+size = Vector3(0.85, 0.55, 0.02)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_screen"]
+size = Vector2(0.8, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_screen1"]
+albedo_color = Color(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_screen2"]
+albedo_color = Color(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_screen3"]
+albedo_color = Color(0.1, 0.1, 0.1, 1)
+
+[node name="ControlRoom" type="Node3D"]
+script = ExtResource("1_vintg")
+
+[node name="RoomCamera" type="Camera3D" parent="."]
+transform = Transform3D(-0.999597, 0.0141964, -0.0245888, 0, 0.866025, 0.5, 0.0283927, 0.499799, -0.865676, 0, 1.5, -2)
+current = true
+
+[node name="Desk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_desk")
+surface_material_override/0 = SubResource("StandardMaterial3D_desk")
+
+[node name="NoseViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(800, 500)
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="SideViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(800, 500)
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="BottomViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(800, 500)
+render_target_clear_mode = 1
+render_target_update_mode = 4
+
+[node name="Monitor1" type="Node3D" parent="."]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -0.85, 0.85, 0)
+
+[node name="Stand" type="MeshInstance3D" parent="Monitor1"]
+transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 0, -1.49012e-08, 0, 1, -0.0295016, -0.15, -0.0751016)
+mesh = SubResource("BoxMesh_stand")
+surface_material_override/0 = SubResource("StandardMaterial3D_stand")
+
+[node name="Bezel" type="MeshInstance3D" parent="Monitor1"]
+transform = Transform3D(1, 0, 0, 0, 0.996195, -0.0871557, -1.49012e-08, 0.0871557, 0.996195, -0.0295016, 0.15, -0.110102)
+mesh = SubResource("BoxMesh_bezel")
+surface_material_override/0 = SubResource("StandardMaterial3D_stand")
+
+[node name="Screen" type="MeshInstance3D" parent="Monitor1"]
+transform = Transform3D(-1, 0, 0, 0, 0.0871557, 0.996195, 1.49012e-08, -0.996195, 0.0871557, -0.0295017, 0.163, -0.120102)
+mesh = SubResource("PlaneMesh_screen")
+surface_material_override/0 = SubResource("StandardMaterial3D_screen1")
+
+[node name="Monitor2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+
+[node name="Stand" type="MeshInstance3D" parent="Monitor2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0.035)
+mesh = SubResource("BoxMesh_stand")
+surface_material_override/0 = SubResource("StandardMaterial3D_stand")
+
+[node name="Bezel" type="MeshInstance3D" parent="Monitor2"]
+transform = Transform3D(1, 0, 0, 0, 0.996195, -0.0871557, 0, 0.0871557, 0.996195, 0, 0.15, 0)
+mesh = SubResource("BoxMesh_bezel")
+surface_material_override/0 = SubResource("StandardMaterial3D_stand")
+
+[node name="Screen" type="MeshInstance3D" parent="Monitor2"]
+transform = Transform3D(-1, 0, 0, 0, 0.0871557, 0.996195, 0, -0.996195, 0.0871557, 0, 0.163, -0.01)
+mesh = SubResource("PlaneMesh_screen")
+surface_material_override/0 = SubResource("StandardMaterial3D_screen2")
+
+[node name="Monitor3" type="Node3D" parent="."]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0.85, 0.85, 0)
+
+[node name="Stand" type="MeshInstance3D" parent="Monitor3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.033779, -0.15, -0.0910652)
+mesh = SubResource("BoxMesh_stand")
+surface_material_override/0 = SubResource("StandardMaterial3D_stand")
+
+[node name="Bezel" type="MeshInstance3D" parent="Monitor3"]
+transform = Transform3D(1, 0, 1.49012e-08, 0, 0.996195, -0.0871557, 0, 0.0871557, 0.996195, 0.0337791, 0.15, -0.126065)
+mesh = SubResource("BoxMesh_bezel")
+surface_material_override/0 = SubResource("StandardMaterial3D_stand")
+
+[node name="Screen" type="MeshInstance3D" parent="Monitor3"]
+transform = Transform3D(-1, -1.49012e-08, 0, 0, 0.0871557, 0.996195, 0, -0.996195, 0.0871557, 0.0337791, 0.163, -0.136065)
+mesh = SubResource("PlaneMesh_screen")
+surface_material_override/0 = SubResource("StandardMaterial3D_screen3")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.43494, -2.09175)
+light_energy = 2.0

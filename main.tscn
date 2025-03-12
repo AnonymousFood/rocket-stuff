@@ -1,10 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://co12a3p215utd"]
+[gd_scene load_steps=19 format=3 uid="uid://co12a3p215utd"]
 
 [ext_resource type="ArrayMesh" uid="uid://dghg1el44b4mg" path="res://Mesh/grass.res" id="1_mmely"]
 [ext_resource type="Script" path="res://rocket.gd" id="2_ia13s"]
 [ext_resource type="PackedScene" uid="uid://bmubawhj53oaa" path="res://rocket.blend" id="3_elmw8"]
 [ext_resource type="Script" path="res://thruster_particles.gd" id="3_n1x33"]
-[ext_resource type="Script" path="res://ground_camera.gd" id="4_dak2l"]
 [ext_resource type="PackedScene" uid="uid://celfgor8twflr" path="res://lowpoly_windmill.glb" id="6_t5nil"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mg6rl"]
@@ -108,6 +107,9 @@ process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
 script = ExtResource("3_n1x33")
 
+[node name="RocketNoseCamera" type="Camera3D" parent="Rocket"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 6.5, 0)
+
 [node name="rocket3" parent="Rocket" instance=ExtResource("3_elmw8")]
 transform = Transform3D(0.588784, 0, 0, 0, 0.80274, 0, 0, 0, 0.588784, -1.55182, 3.55961, -0.0361089)
 
@@ -138,10 +140,11 @@ process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
 script = ExtResource("3_n1x33")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.726652, -0.629104, 0.276052, 0.631359, 0.769931, 0.0926952, -0.270856, 0.106931, 0.956662, -0.0026474, 2.63398, 5.25929)
-current = true
-script = ExtResource("4_dak2l")
+[node name="RocketSideCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4, 8)
+
+[node name="RocketBottomCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 1.5, -3)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.132032, -0.622146, 0.771688, 0.104921, 0.782901, 0.613235, -0.985677, 0, 0.168644, 6.69822, 4.90203, 0)
