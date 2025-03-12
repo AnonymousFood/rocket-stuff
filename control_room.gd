@@ -3,6 +3,9 @@ extends Node3D
 var active_camera = null
 var camera_rotation_speed = 1.0
 var camera_move_speed = 2.0
+var camera_zoom_speed = 1.0  # Add zoom speed variable
+var min_fov = 20.0  # Minimum field of view (more zoomed in)
+var max_fov = 90.0  # Maximum field of view (more zoomed out)
 
 func _ready():
 	print("Setting up control room...")
@@ -27,7 +30,7 @@ func _ready():
 
 func setup_monitor(viewport_name: String, monitor_name: String, camera_position: Vector3) -> Camera3D:
 	var viewport = get_node(viewport_name)
-	viewport.size = Vector2(800, 500)
+	viewport.size = Vector2(1920, 1080)  # Increased from 800x500 to 1080p
 	viewport.transparent_bg = false
 	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ALWAYS
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -125,6 +128,7 @@ func setup_monitor_click_area(monitor_name: String, camera: Camera3D):
 func _process(delta):
 	if active_camera:
 		var rotated = false
+		var zoomed = false
 		
 		# Vertical rotation (looking up/down)
 		if Input.is_action_pressed("ui_up"):
@@ -142,17 +146,28 @@ func _process(delta):
 			active_camera.rotate_y(-camera_rotation_speed * delta)
 			rotated = true
 			
+		# Zoom in/out with - and =
+		if Input.is_action_pressed("zoom_in"):  # = key
+			active_camera.fov = clamp(active_camera.fov - camera_zoom_speed, min_fov, max_fov)
+			zoomed = true
+		if Input.is_action_pressed("zoom_out"):  # - key
+			active_camera.fov = clamp(active_camera.fov + camera_zoom_speed, min_fov, max_fov)
+			zoomed = true
+			
 		if rotated:
 			# Clamp vertical rotation to prevent over-rotation
 			var rotation = active_camera.rotation_degrees
-			rotation.x = clamp(rotation.x, -89, 89)  # Prevent looking completely up/down
+			rotation.x = clamp(rotation.x, -89, 89)
 			active_camera.rotation_degrees = rotation
-			
 			print("Camera rotation: ", active_camera.rotation_degrees)
+			
+		if zoomed:
+			print("Camera FOV: ", active_camera.fov)
 		
 		# Reset camera when ESC is pressed
 		if Input.is_action_just_pressed("ui_cancel"):
-			# Reset rotation to original
+			# Reset rotation and zoom
 			active_camera.look_at(Vector3(0, 1, 0))
+			active_camera.fov = 75  # Reset to default FOV
 			active_camera = null
 			print("Camera control deactivated") 
