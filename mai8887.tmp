@@ -1,17 +1,13 @@
-[gd_scene load_steps=24 format=3 uid="uid://co12a3p215utd"]
+[gd_scene load_steps=20 format=3 uid="uid://co12a3p215utd"]
 
 [ext_resource type="ArrayMesh" uid="uid://dghg1el44b4mg" path="res://Mesh/grass.res" id="1_mmely"]
 [ext_resource type="Script" path="res://rocket.gd" id="2_ia13s"]
 [ext_resource type="ArrayMesh" uid="uid://dd0rs0uqarv2l" path="res://Mesh/rocket.tres" id="3_foaw4"]
 [ext_resource type="Script" path="res://thruster_particles.gd" id="3_n1x33"]
 [ext_resource type="Script" path="res://ground_camera.gd" id="4_dak2l"]
-[ext_resource type="Shader" path="res://particles.gdshader" id="4_xkomw"]
 [ext_resource type="Sky" uid="uid://cx38cv7r557ks" path="res://Night_Sky.tres" id="5_6c2kn"]
 [ext_resource type="Script" path="res://Scripts/sky_swap.gd" id="6_1q4x2"]
 [ext_resource type="PackedScene" uid="uid://celfgor8twflr" path="res://lowpoly_windmill.glb" id="6_t5nil"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q3gfu"]
-absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mg6rl"]
 size = Vector3(22.6951, 1, 21.144)
@@ -31,13 +27,6 @@ buffer = PackedFloat32Array(-0.614217, 0.0872445, 0.0536905, -3.25244, 0.0875876
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hpl6m"]
 height = 5.34061
 radius = 1.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d3eem"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_a37k5"]
-render_priority = 0
-shader = ExtResource("4_xkomw")
-shader_parameter/max_emission_strength = 8.0
 
 [sub_resource type="Gradient" id="Gradient_ohpla"]
 offsets = PackedFloat32Array(0, 0.518182, 1)
@@ -70,14 +59,10 @@ material = SubResource("StandardMaterial3D_0evy7")
 [sub_resource type="Environment" id="Environment_jfiun"]
 background_mode = 2
 sky = ExtResource("5_6c2kn")
-glow_enabled = true
-glow_intensity = 0.3
-glow_blend_mode = 0
 
 [node name="Main" type="Node3D"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
-physics_material_override = SubResource("PhysicsMaterial_q3gfu")
 
 [node name="GroundCollision" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286743, -0.638341, -1.93539)
@@ -103,11 +88,9 @@ shape = SubResource("CylinderShape3D_hpl6m")
 [node name="RocketModel" type="MeshInstance3D" parent="Rocket"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.16177, 0)
 mesh = ExtResource("3_foaw4")
-surface_material_override/0 = SubResource("StandardMaterial3D_d3eem")
 
-[node name="RocketTrail" type="GPUParticles3D" parent="Rocket"]
+[node name="Rocket_rocket_Thruster#ThrusterParticles" type="GPUParticles3D" parent="Rocket"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.703494, 0)
-material_override = SubResource("ShaderMaterial_a37k5")
 amount = 100
 lifetime = 0.75
 collision_base_size = 1.0
@@ -127,6 +110,9 @@ transform = Transform3D(0.132032, -0.622146, 0.771688, 0.104921, 0.782901, 0.613
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jfiun")
 script = ExtResource("6_1q4x2")
+day = null
+skyDay = null
+skyNight = null
 
 [node name="Sketchfab_Scene" parent="." instance=ExtResource("6_t5nil")]
 transform = Transform3D(0.240043, 0, 0.438611, 0, 0.5, 0, -0.438611, 0, 0.240043, 6.38183, 0.132677, -1.0928)

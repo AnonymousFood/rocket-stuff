@@ -95,6 +95,13 @@ multimesh = SubResource("MultiMesh_v2jb5")
 
 [node name="Rocket" type="CharacterBody3D" parent="."]
 script = ExtResource("2_ia13s")
+thrust_power = null
+wobble_strength = null
+wobble_speed = null
+parachute_deploy_height = null
+air_resistance = null
+parachute_drag = null
+rotation_smoothing = null
 
 [node name="RocketCollision" type="CollisionShape3D" parent="Rocket"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
