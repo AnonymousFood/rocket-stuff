@@ -50,11 +50,11 @@ multimesh = SubResource("MultiMesh_v2jb5")
 [node name="RocketNoseCamera" type="Camera3D" parent="Rocket"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 6.5, 0)
 
-[node name="RocketSideCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4, 8)
-
-[node name="RocketBottomCamera" type="Camera3D" parent="."]
+[node name="RocketBottomCamera" type="Camera3D" parent="Rocket"]
 transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 1.5, -3)
+
+[node name="RocketSideCamera" type="Camera3D" parent="Rocket"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4, 8)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.132032, -0.622146, 0.771688, 0.104921, 0.782901, 0.613235, -0.985677, 0, 0.168644, 6.69822, 4.90203, 0)
