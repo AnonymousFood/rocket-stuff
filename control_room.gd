@@ -39,15 +39,6 @@ func setup_monitor(viewport_name: String, monitor_name: String, camera_position:
 	var world = World3D.new()
 	viewport.world_3d = world
 	
-	# Create environment for the viewport world
-	var environment = Environment.new()
-	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color(0.2, 0.2, 0.2)
-	
-	var world_environment = WorldEnvironment.new()
-	world_environment.environment = environment
-	viewport.add_child(world_environment)
-	
 	# Create main scene instead of test scene
 	var main_scene = preload("res://main.tscn").instantiate()
 	viewport.add_child(main_scene)
@@ -59,20 +50,11 @@ func setup_monitor(viewport_name: String, monitor_name: String, camera_position:
 	# Handle different camera setups
 	match viewport_name:
 		"NoseViewport":
-			# Find the rocket node and attach camera to it
-			var rocket = main_scene.get_node("Rocket")
-			rocket.add_child(camera)
-			# Position camera relative to rocket (slightly above and in front)
-			camera.position = Vector3(0, 2, 2)
-			camera.rotation = Vector3(-0.4, PI, 0)  # Look slightly down at rocket
-		"BottomViewport":
-			viewport.add_child(camera)
-			camera.position = Vector3(0, 2, 0)
-			camera.look_at(Vector3(0, 10, 0))
+			camera = main_scene.get_node("Rocket/RocketNoseCamera")
 		"SideViewport":
-			viewport.add_child(camera)
-			camera.position = Vector3(20, 10, 20)
-			camera.look_at(Vector3(0, 10, 0))
+			camera = main_scene.get_node("Rocket/RocketSideCamera")
+		"BottomViewport":
+			camera = main_scene.get_node("RocketGroundCamera")
 	
 	camera.current = true
 	

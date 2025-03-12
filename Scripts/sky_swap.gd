@@ -3,7 +3,7 @@ extends WorldEnvironment
 var day = true
 var skyDay = preload("res://Day_Sky.tres")
 var skyNight = preload("res://Night_Sky.tres")
-@onready var lightSource : DirectionalLight3D = %DirectionalLight3D
+@onready var lightSource : DirectionalLight3D = $"../Sun"
 var randomizer = randi() % 2
 
 #default funcs not needed for the swap
