@@ -9,16 +9,16 @@ size = Vector3(4, 0.1, 2)
 albedo_color = Color(0.3, 0.2, 0.1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_stand"]
-size = Vector3(0.1, 0.3, 0.1)
+size = Vector3(0.1, 0.7, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stand"]
 albedo_color = Color(0.1, 0.1, 0.1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bezel"]
-size = Vector3(0.85, 0.55, 0.02)
+size = Vector3(1.7, 1, 0.02)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_screen"]
-size = Vector2(0.8, 0.5)
+size = Vector2(1.6, 0.9)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_screen1"]
 albedo_color = Color(0.1, 0.1, 0.1, 1)
@@ -33,7 +33,7 @@ albedo_color = Color(0.1, 0.1, 0.1, 1)
 script = ExtResource("1_vintg")
 
 [node name="RoomCamera" type="Camera3D" parent="."]
-transform = Transform3D(-0.999597, 0.0141964, -0.0245888, 0, 0.866025, 0.5, 0.0283927, 0.499799, -0.865676, 0, 1.5, -2)
+transform = Transform3D(-0.999899, 0.0109593, -0.00900713, 0.00889674, 0.979021, 0.203564, 0.0110491, 0.203463, -0.97902, 0, 1.5, -2.12904)
 current = true
 
 [node name="Desk" type="MeshInstance3D" parent="."]
@@ -60,10 +60,10 @@ render_target_clear_mode = 1
 render_target_update_mode = 4
 
 [node name="Monitor1" type="Node3D" parent="."]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -0.85, 0.85, 0)
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -1.7, 1.2, 0)
 
 [node name="Stand" type="MeshInstance3D" parent="Monitor1"]
-transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 0, -1.49012e-08, 0, 1, -0.0295016, -0.15, -0.0751016)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0295016, -0.341244, -0.0751016)
 mesh = SubResource("BoxMesh_stand")
 surface_material_override/0 = SubResource("StandardMaterial3D_stand")
 
@@ -78,10 +78,10 @@ mesh = SubResource("PlaneMesh_screen")
 surface_material_override/0 = SubResource("StandardMaterial3D_screen1")
 
 [node name="Monitor2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 
 [node name="Stand" type="MeshInstance3D" parent="Monitor2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0.035)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.336677, 0.035)
 mesh = SubResource("BoxMesh_stand")
 surface_material_override/0 = SubResource("StandardMaterial3D_stand")
 
@@ -96,10 +96,10 @@ mesh = SubResource("PlaneMesh_screen")
 surface_material_override/0 = SubResource("StandardMaterial3D_screen2")
 
 [node name="Monitor3" type="Node3D" parent="."]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0.85, 0.85, 0)
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 1.7, 1.2, 0)
 
 [node name="Stand" type="MeshInstance3D" parent="Monitor3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.033779, -0.15, -0.0910652)
+transform = Transform3D(1, 0, -1.49012e-08, 0, 1, 0, 1.49012e-08, 0, 1, 0.033779, -0.317863, -0.0910652)
 mesh = SubResource("BoxMesh_stand")
 surface_material_override/0 = SubResource("StandardMaterial3D_stand")
 
