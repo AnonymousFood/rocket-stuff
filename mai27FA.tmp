@@ -86,10 +86,23 @@ shape = SubResource("CylinderShape3D_hpl6m")
 
 [node name="RocketModel" type="MeshInstance3D" parent="Rocket"]
 
-[node name="Rocket_rocket#Thruster" type="Node3D" parent="."]
+[node name="rocket" parent="Rocket"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0147158, 4.30826, -0.0287523)
+script = null
+
+[node name="Thruster" type="Node3D" parent="Rocket/rocket"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
 
-[node name="Rocket_rocket_Thruster#ThrusterParticles" type="GPUParticles3D" parent="."]
+[node name="ThrusterParticles" type="GPUParticles3D" parent="Rocket/rocket/Thruster"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
 amount = 100
 lifetime = 0.75
@@ -98,10 +111,23 @@ process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
 script = ExtResource("3_n1x33")
 
-[node name="Rocket_rocket3#Thruster" type="Node3D" parent="."]
+[node name="rocket3" parent="Rocket"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(0.588784, 0, 0, 0, 0.80274, 0, 0, 0, 0.588784, -1.55182, 3.55961, -0.0361089)
+script = null
+
+[node name="Thruster" type="Node3D" parent="Rocket/rocket3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
 
-[node name="Rocket_rocket3_Thruster#ThrusterParticles" type="GPUParticles3D" parent="."]
+[node name="ThrusterParticles" type="GPUParticles3D" parent="Rocket/rocket3/Thruster"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
 amount = 100
 lifetime = 0.75
@@ -110,10 +136,23 @@ process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
 script = ExtResource("3_n1x33")
 
-[node name="Rocket_rocket4#Thruster" type="Node3D" parent="."]
+[node name="rocket4" parent="Rocket"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(0.588784, 0, 0, 0, 0.80274, 0, 0, 0, 0.588784, 1.61399, 3.55961, -0.0361089)
+script = null
+
+[node name="Thruster" type="Node3D" parent="Rocket/rocket4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
 
-[node name="Rocket_rocket4_Thruster#ThrusterParticles" type="GPUParticles3D" parent="."]
+[node name="ThrusterParticles" type="GPUParticles3D" parent="Rocket/rocket4/Thruster"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
 amount = 100
 lifetime = 0.75

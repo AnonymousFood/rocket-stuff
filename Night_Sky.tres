@@ -1,0 +1,10 @@
+[gd_resource type="Sky" load_steps=2 format=3 uid="uid://cx38cv7r557ks"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lba3e"]
+sky_top_color = Color(0.116519, 0.0735771, 0.202676, 1)
+sky_horizon_color = Color(0.0540505, 0.0565398, 0.0604691, 1)
+ground_bottom_color = Color(0.108828, 0.210831, 0.0604411, 1)
+ground_horizon_color = Color(0.081903, 0.0632053, 0.0121977, 1)
+
+[resource]
+sky_material = SubResource("ProceduralSkyMaterial_lba3e")
