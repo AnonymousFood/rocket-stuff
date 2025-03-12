@@ -1,0 +1,67 @@
+[gd_scene load_steps=13 format=3 uid="uid://dn0j10y4yctsu"]
+
+[ext_resource type="Script" path="res://rocket.gd" id="1_hehsm"]
+[ext_resource type="ArrayMesh" uid="uid://dd0rs0uqarv2l" path="res://Mesh/rocket.tres" id="2_wgehl"]
+[ext_resource type="Shader" path="res://particles.gdshader" id="3_71fyw"]
+[ext_resource type="Script" path="res://thruster_particles.gd" id="4_jictr"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hpl6m"]
+height = 5.34061
+radius = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d3eem"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a37k5"]
+render_priority = 0
+shader = ExtResource("3_71fyw")
+shader_parameter/max_emission_strength = 8.0
+
+[sub_resource type="Gradient" id="Gradient_ohpla"]
+offsets = PackedFloat32Array(0, 0.518182, 1)
+colors = PackedColorArray(0.649337, 0.00104078, 0.764744, 1, 0.8505, 0.61, 1, 1, 0.892333, 0.62, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d0smq"]
+gradient = SubResource("Gradient_ohpla")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n2pvn"]
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.0
+linear_accel_max = -2.0
+color_ramp = SubResource("GradientTexture1D_d0smq")
+collision_mode = 1
+collision_friction = 1.0
+collision_bounce = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0evy7"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_87v3g"]
+material = SubResource("StandardMaterial3D_0evy7")
+
+[node name="Rocket" type="CharacterBody3D"]
+script = ExtResource("1_hehsm")
+
+[node name="RocketCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
+shape = SubResource("CylinderShape3D_hpl6m")
+
+[node name="RocketModel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.16177, 0)
+mesh = ExtResource("2_wgehl")
+surface_material_override/0 = SubResource("StandardMaterial3D_d3eem")
+
+[node name="RocketTrail" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.703494, 0)
+material_override = SubResource("ShaderMaterial_a37k5")
+amount = 100
+lifetime = 0.75
+collision_base_size = 1.0
+process_material = SubResource("ParticleProcessMaterial_n2pvn")
+draw_pass_1 = SubResource("SphereMesh_87v3g")
+script = ExtResource("4_jictr")
