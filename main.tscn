@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://co12a3p215utd"]
+[gd_scene load_steps=20 format=3 uid="uid://co12a3p215utd"]
 
 [ext_resource type="ArrayMesh" uid="uid://dghg1el44b4mg" path="res://Mesh/grass.res" id="1_mmely"]
 [ext_resource type="Script" path="res://rocket.gd" id="2_ia13s"]
+[ext_resource type="ArrayMesh" uid="uid://dd0rs0uqarv2l" path="res://Mesh/rocket.tres" id="3_foaw4"]
 [ext_resource type="Script" path="res://thruster_particles.gd" id="3_n1x33"]
 [ext_resource type="Script" path="res://ground_camera.gd" id="4_dak2l"]
 [ext_resource type="Sky" uid="uid://cx38cv7r557ks" path="res://Night_Sky.tres" id="5_6c2kn"]
@@ -85,36 +86,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
 shape = SubResource("CylinderShape3D_hpl6m")
 
 [node name="RocketModel" type="MeshInstance3D" parent="Rocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.16177, 0)
+mesh = ExtResource("3_foaw4")
 
-[node name="Rocket_rocket#Thruster" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
-
-[node name="Rocket_rocket_Thruster#ThrusterParticles" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
-amount = 100
-lifetime = 0.75
-collision_base_size = 1.0
-process_material = SubResource("ParticleProcessMaterial_n2pvn")
-draw_pass_1 = SubResource("SphereMesh_87v3g")
-script = ExtResource("3_n1x33")
-
-[node name="Rocket_rocket3#Thruster" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
-
-[node name="Rocket_rocket3_Thruster#ThrusterParticles" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
-amount = 100
-lifetime = 0.75
-collision_base_size = 1.0
-process_material = SubResource("ParticleProcessMaterial_n2pvn")
-draw_pass_1 = SubResource("SphereMesh_87v3g")
-script = ExtResource("3_n1x33")
-
-[node name="Rocket_rocket4#Thruster" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0147158, -3.24563, 0.0287523)
-
-[node name="Rocket_rocket4_Thruster#ThrusterParticles" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35135, 0)
+[node name="Rocket_rocket_Thruster#ThrusterParticles" type="GPUParticles3D" parent="Rocket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.703494, 0)
 amount = 100
 lifetime = 0.75
 collision_base_size = 1.0
