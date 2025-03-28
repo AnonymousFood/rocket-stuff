@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://ktvstunutkrv"]
+[gd_scene load_steps=12 format=3 uid="uid://ktvstunutkrv"]
 
 [ext_resource type="Script" path="res://control_room.gd" id="1_vintg"]
+[ext_resource type="Script" path="res://room_camera.gd" id="2_e2r8u"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_desk"]
 size = Vector3(4, 0.1, 2)
@@ -35,6 +36,7 @@ script = ExtResource("1_vintg")
 [node name="RoomCamera" type="Camera3D" parent="."]
 transform = Transform3D(-0.999899, 0.0109593, -0.00900713, 0.00889674, 0.979021, 0.203564, 0.0110491, 0.203463, -0.97902, 0, 1.5, -2.12904)
 current = true
+script = ExtResource("2_e2r8u")
 
 [node name="Desk" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
