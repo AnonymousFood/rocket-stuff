@@ -7,11 +7,14 @@ var max_fov = 90.0
 var rotation_target := Vector3.ZERO
 var current_rotation := Vector3.ZERO
 var default_fov = 75.0
+
+# Mouse stuff is WIP
 var mouse_sensitivity = 0.3
 var enable_mouse_control = false
 
+# Camera orbit bounds
 var orbit_center := Vector3.ZERO
-var orbit_distance := 5.0  # Adjust this value based on your needs
+var orbit_distance := 5.0
 var min_orbit_distance := 2.0
 var max_orbit_distance := 10.0
 
@@ -25,12 +28,6 @@ var active_camera : Camera3D = null
 var initial_camera_pos := Vector3.ZERO
 var initial_camera_rot := Vector3.ZERO
 var initial_distance := 5.0
-
-var shake_amount := 0.0
-var max_shake_amount := 0.5
-var shake_decay := 5.0
-var noise := FastNoiseLite.new()
-var noise_time := 0.0
 
 func _ready():
 	print("Setting up control room...")
@@ -198,6 +195,3 @@ func _process(delta):
 		# Reset camera when ESC is pressed
 		if Input.is_action_just_pressed("ui_cancel"):
 			reset_camera()
-
-func apply_shake(amount: float) -> void:
-	shake_amount = min(shake_amount + amount, max_shake_amount)

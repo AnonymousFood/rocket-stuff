@@ -7,6 +7,7 @@ extends CharacterBody3D
 @export var air_resistance: float = 0.1
 @export var parachute_drag: float = 2.0
 @export var rotation_smoothing: float = 2.0
+@export var parachute : PackedScene
 
 var velocity_y: float = 0.0
 var gravity: float = -9.8
@@ -19,8 +20,10 @@ var particles_enabled: bool = true
 var parachute_deployed: bool = false
 var has_landed: bool = false
 var engine_sputter_phase: int = 0
+var current_parachute: Node3D = null
 
-@onready var particles = $RocketTrail
+@onready var particles = $RocketExhaust
+@onready var trail = $RocketTrail
 @onready var initial_rotation = rotation
 
 func _ready():
@@ -52,9 +55,14 @@ func deploy_parachute():
 	parachute_deployed = true
 	# Reduce spin dramatically
 	spin_velocity *= 0.2
-	# Create visual parachute (you'll need to add this model/mesh to your scene)
-	if has_node("ParachuteModel"):
-		$ParachuteModel.visible = true
+	
+	# Create and position the parachute instance
+	if parachute:
+		current_parachute = parachute.instantiate()
+		add_child(current_parachute)
+		# Position and scale the parachute above the rocket
+		current_parachute.position = Vector3(0, 11.2, 0)
+		current_parachute.scale = Vector3(0.015, 0.015, 0.015)
 
 func start_comedic_failure():
 	flicker_start = true
@@ -115,12 +123,12 @@ func final_shutdown():
 			tween.kill()
 	
 	# Force particles off
-	particles.emitting = false
-	particles_enabled = false
+	set_particles(false)
 
 func set_particles(enabled: bool):
 	particles_enabled = enabled
 	particles.emitting = enabled
+	trail.emitting = enabled
 
 func normal_flight(delta):
 	var wobble_multiplier = 1.0
@@ -198,6 +206,19 @@ func land():
 	global_position.y = 0
 	velocity = Vector3.ZERO
 	spin_velocity = Vector3.ZERO
+	
+	# Make parachute fall off
+	if current_parachute:
+		# Remove from rocket and add to scene root
+		remove_child(current_parachute)
+		get_tree().root.add_child(current_parachute)
+		# Set world position slightly behind rocket
+		current_parachute.global_position = global_position + Vector3(0, 0, 2)
+		# Add some physics to make it fall naturally
+		if current_parachute is RigidBody3D:
+			current_parachute.freeze = false
+		current_parachute = null
+	
 	# Ensure rocket is perfectly upright
 	var final_rotation = Vector3.ZERO
 	final_rotation.y = rotation.y  # Keep final Y rotation

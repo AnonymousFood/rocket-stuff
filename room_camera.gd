@@ -11,7 +11,6 @@ func _ready():
 	noise.seed = randi()
 	noise.frequency = 4.0
 	original_position = position
-	print(position)
 	start_shake()
 
 func _process(delta):
@@ -34,8 +33,6 @@ func _process(delta):
 			is_shaking = false
 			shake_time = 0.0
 			position = original_position
-			print(original_position)
-			print(position)
 
 func start_shake():
 	is_shaking = true

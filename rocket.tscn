@@ -1,9 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://dn0j10y4yctsu"]
+[gd_scene load_steps=16 format=3 uid="uid://dn0j10y4yctsu"]
 
 [ext_resource type="Script" path="res://rocket.gd" id="1_hehsm"]
+[ext_resource type="PackedScene" uid="uid://b1g6bplfhhfju" path="res://Mesh/parachute/scene.gltf" id="2_i8lea"]
 [ext_resource type="ArrayMesh" uid="uid://dd0rs0uqarv2l" path="res://Mesh/rocket.tres" id="2_wgehl"]
 [ext_resource type="Shader" path="res://particles.gdshader" id="3_71fyw"]
-[ext_resource type="Script" path="res://thruster_particles.gd" id="4_jictr"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hpl6m"]
 height = 5.34061
@@ -44,8 +44,25 @@ vertex_color_use_as_albedo = true
 [sub_resource type="SphereMesh" id="SphereMesh_87v3g"]
 material = SubResource("StandardMaterial3D_0evy7")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l5uwh"]
+direction = Vector3(0, -1, 0)
+spread = 20.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l0kj7"]
+render_priority = -1
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.188235)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6dowa"]
+material = SubResource("StandardMaterial3D_l0kj7")
+radius = 1.0
+height = 2.0
+
 [node name="Rocket" type="CharacterBody3D"]
 script = ExtResource("1_hehsm")
+parachute = ExtResource("2_i8lea")
 
 [node name="RocketCollision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
@@ -56,7 +73,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.16177, 0)
 mesh = ExtResource("2_wgehl")
 surface_material_override/0 = SubResource("StandardMaterial3D_d3eem")
 
-[node name="RocketTrail" type="GPUParticles3D" parent="."]
+[node name="RocketExhaust" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.703494, 0)
 material_override = SubResource("ShaderMaterial_a37k5")
 amount = 100
@@ -64,4 +81,11 @@ lifetime = 0.75
 collision_base_size = 1.0
 process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
-script = ExtResource("4_jictr")
+
+[node name="RocketTrail" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.43811, 0)
+amount = 1000
+lifetime = 10.0
+interp_to_end = 1.0
+process_material = SubResource("ParticleProcessMaterial_l5uwh")
+draw_pass_1 = SubResource("SphereMesh_6dowa")
