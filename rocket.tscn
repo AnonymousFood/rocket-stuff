@@ -1,20 +1,12 @@
-[gd_scene load_steps=21 format=3 uid="uid://dn0j10y4yctsu"]
+[gd_scene load_steps=18 format=3 uid="uid://dn0j10y4yctsu"]
 
 [ext_resource type="Script" path="res://rocket.gd" id="1_hehsm"]
-[ext_resource type="PackedScene" uid="uid://b1g6bplfhhfju" path="res://Mesh/parachute/scene.gltf" id="2_i8lea"]
-[ext_resource type="ArrayMesh" uid="uid://dd0rs0uqarv2l" path="res://Mesh/rocket.tres" id="2_wgehl"]
-[ext_resource type="Shader" path="res://particles.gdshader" id="3_71fyw"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hpl6m"]
 height = 5.34061
 radius = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d3eem"]
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a37k5"]
-render_priority = 0
-shader = ExtResource("3_71fyw")
-shader_parameter/max_emission_strength = 8.0
 
 [sub_resource type="Gradient" id="Gradient_ohpla"]
 offsets = PackedFloat32Array(0, 0.518182, 1)
@@ -52,7 +44,14 @@ vertex_color_use_as_albedo = true
 lightmap_size_hint = Vector2i(17, 9)
 material = SubResource("StandardMaterial3D_0evy7")
 
+[sub_resource type="Curve" id="Curve_x2tqc"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CurveTexture" id="CurveTexture_q1m23"]
+curve = SubResource("Curve_x2tqc")
 
 [sub_resource type="Curve" id="Curve_xergh"]
 _data = [Vector2(0, 0.142857), 0.0, 0.0, 0, 0, Vector2(0.123188, 0.747253), 0.0, 0.0, 0, 0, Vector2(1, 0.736264), 0.0, 0.0, 0, 0]
@@ -101,7 +100,6 @@ rings = 8
 
 [node name="Rocket" type="CharacterBody3D"]
 script = ExtResource("1_hehsm")
-parachute = ExtResource("2_i8lea")
 
 [node name="RocketCollision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
@@ -109,8 +107,6 @@ shape = SubResource("CylinderShape3D_hpl6m")
 
 [node name="RocketModel" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.16177, 0)
-mesh = ExtResource("2_wgehl")
-surface_material_override/0 = SubResource("StandardMaterial3D_d3eem")
 
 [node name="RocketExhaust" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00337219, 0.188084, -0.0142193)
