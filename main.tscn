@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://ground_camera.gd" id="4_dak2l"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mg6rl"]
-size = Vector3(22.6951, 1, 21.144)
+size = Vector3(136.602, 1, 152.345)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_prkqb"]
 size = Vector2(10, 10)
@@ -70,7 +70,7 @@ sky = SubResource("Sky_g8buv")
 [node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="GroundCollision" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286743, -0.638341, -1.93539)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.733017, 0.335394, -0.156481)
 shape = SubResource("BoxShape3D_mg6rl")
 
 [node name="GroundModel" type="MeshInstance3D" parent="Ground"]
@@ -83,8 +83,17 @@ transform = Transform3D(0.954271, -0.0688085, 0.0855033, 0.0922611, 0.711493, 0.
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_v2jb5")
 
+<<<<<<< Updated upstream
 [node name="Rocket" type="CharacterBody3D" parent="."]
 script = ExtResource("2_ia13s")
+=======
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Ground"]
+transform = Transform3D(0.586821, 0, 0, 0, 0.586821, 0, 0, 0, 0.586821, -0.550095, -4.24016, -0.0612764)
+size = Vector3(1000, 0.65, 1000)
+
+[node name="Rocket" parent="." instance=ExtResource("2_5a2jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14322, 0)
+>>>>>>> Stashed changes
 
 [node name="RocketCollision" type="CollisionShape3D" parent="Rocket"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
