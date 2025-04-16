@@ -1,0 +1,11 @@
+Model Information:
+* title:	Parachute
+* source:	https://sketchfab.com/3d-models/parachute-40a814b7159c4b82b4ae1c17eae69f84
+* author:	m4dg4m3r (https://sketchfab.com/m4dg4m3r)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Parachute" (https://sketchfab.com/3d-models/parachute-40a814b7159c4b82b4ae1c17eae69f84) by m4dg4m3r (https://sketchfab.com/m4dg4m3r) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,6 +1,6 @@
 extends Camera3D
 
-@onready var rocket = $"../Rocket" # Replace with the correct path to your rocket
+@onready var rocket = $"../Rocket"
 
 func _process(delta):
 	# Update the camera to always look at the rocket

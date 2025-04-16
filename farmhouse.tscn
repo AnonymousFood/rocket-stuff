@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://bg4umtadogcm"]
+
+[ext_resource type="Script" path="res://Farmhouse.gd" id="1_23xm7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lsnbp"]
+size = Vector3(5.01, 4, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1x50"]
+albedo_color = Color(0.843137, 0.721569, 0.623529, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_exblh"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nv6qf"]
+albedo_color = Color(0.545098, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xmshb"]
+size = Vector3(1, 2, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_thlda"]
+albedo_color = Color(0.396078, 0.262745, 0.129412, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jywg0"]
+
+[node name="Farmhouse" type="Node3D"]
+script = ExtResource("1_23xm7")
+
+[node name="Walls" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_lsnbp")
+surface_material_override/0 = SubResource("StandardMaterial3D_d1x50")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 4.5, 0)
+mesh = SubResource("PrismMesh_exblh")
+surface_material_override/0 = SubResource("StandardMaterial3D_nv6qf")
+
+[node name="Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.5, -0.9, -0.5)
+mesh = SubResource("BoxMesh_xmshb")
+surface_material_override/0 = SubResource("StandardMaterial3D_thlda")
+
+[node name="Interaction_Area" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interaction_Area"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.5, -0.9, -0.5)
+shape = SubResource("BoxShape3D_jywg0")
