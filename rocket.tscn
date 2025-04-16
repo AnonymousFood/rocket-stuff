@@ -1,12 +1,17 @@
-[gd_scene load_steps=18 format=3 uid="uid://dn0j10y4yctsu"]
+[gd_scene load_steps=20 format=3 uid="uid://dn0j10y4yctsu"]
 
 [ext_resource type="Script" path="res://rocket.gd" id="1_hehsm"]
+[ext_resource type="ArrayMesh" uid="uid://f64kb3hbvfvc" path="res://Mesh/rocket.tres" id="2_4kufo"]
+[ext_resource type="Shader" path="res://particles.gdshader" id="3_ur2ri"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hpl6m"]
 height = 5.34061
 radius = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a37k5"]
+render_priority = 0
+shader = ExtResource("3_ur2ri")
+shader_parameter/max_emission_strength = 0.5
 
 [sub_resource type="Gradient" id="Gradient_ohpla"]
 offsets = PackedFloat32Array(0, 0.518182, 1)
@@ -107,6 +112,7 @@ shape = SubResource("CylinderShape3D_hpl6m")
 
 [node name="RocketModel" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.16177, 0)
+mesh = ExtResource("2_4kufo")
 
 [node name="RocketExhaust" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00337219, 0.188084, -0.0142193)
@@ -118,7 +124,7 @@ process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
 
 [node name="RocketTrail" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256104, -3.67355, -0.00268555)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0148374, -3.67355, -0.0217302)
 amount = 1000
 lifetime = 20.0
 collision_base_size = 1.0

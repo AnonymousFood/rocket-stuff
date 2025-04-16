@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://dd0rs0uqarv2l"]
+[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://f64kb3hbvfvc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1uo8j"]
 resource_name = "White Spaceship"
