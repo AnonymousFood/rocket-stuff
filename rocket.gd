@@ -8,6 +8,7 @@ extends CharacterBody3D
 @export var parachute_drag: float = 2.0
 @export var rotation_smoothing: float = 2.0
 @export var parachute : PackedScene
+@export var next_scene_path: String = "res://earth-flyby/world.tscn"
 
 var velocity_y: float = 0.0
 var gravity: float = -9.8
@@ -27,6 +28,7 @@ var current_parachute: Node3D = null
 @onready var initial_rotation = rotation
 
 func _ready():
+	randomize()
 	failure_time = randf_range(10.0, 15.0)
 
 func _physics_process(delta):
@@ -225,9 +227,13 @@ func land():
 	rotation = final_rotation
 
 func start_failure():
-	is_failing = true
-	spin_velocity = Vector3(
-		randf_range(-1.0, 1.0),
-		randf_range(-1.0, 1.0),
-		randf_range(-1.0, 1.0)
-	) * 5.0
+	var roll = randf()
+	if roll < 0.5:
+		is_failing = true
+		spin_velocity = Vector3(
+			randf_range(-1.0, 1.0),
+			randf_range(-1.0, 1.0),
+			randf_range(-1.0, 1.0)
+		) * 5.0
+	else:
+		get_tree().change_scene_to_file(next_scene_path)
