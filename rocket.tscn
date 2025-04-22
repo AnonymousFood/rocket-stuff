@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dn0j10y4yctsu"]
+[gd_scene load_steps=21 format=3 uid="uid://dn0j10y4yctsu"]
 
 [ext_resource type="Script" path="res://rocket.gd" id="1_hehsm"]
 [ext_resource type="PackedScene" uid="uid://b1g6bplfhhfju" path="res://Mesh/parachute/scene.gltf" id="2_i8lea"]
@@ -23,14 +23,22 @@ colors = PackedColorArray(0.649337, 0.00104078, 0.764744, 1, 0.8505, 0.61, 1, 1,
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_d0smq"]
 gradient = SubResource("Gradient_ohpla")
 
+[sub_resource type="Curve" id="Curve_ghkr2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lt20t"]
+curve = SubResource("Curve_ghkr2")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n2pvn"]
 direction = Vector3(0, -1, 0)
-spread = 15.0
+spread = 0.0
 initial_velocity_min = 5.0
 initial_velocity_max = 5.0
 gravity = Vector3(0, 0, 0)
 linear_accel_min = -2.0
 linear_accel_max = -2.0
+scale_curve = SubResource("CurveTexture_lt20t")
 color_ramp = SubResource("GradientTexture1D_d0smq")
 collision_mode = 1
 collision_friction = 1.0
@@ -38,27 +46,58 @@ collision_bounce = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0evy7"]
 transparency = 1
-shading_mode = 0
 vertex_color_use_as_albedo = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_87v3g"]
+lightmap_size_hint = Vector2i(17, 9)
 material = SubResource("StandardMaterial3D_0evy7")
 
+[sub_resource type="CurveTexture" id="CurveTexture_q1m23"]
+
+[sub_resource type="Curve" id="Curve_xergh"]
+_data = [Vector2(0, 0.142857), 0.0, 0.0, 0, 0, Vector2(0.123188, 0.747253), 0.0, 0.0, 0, 0, Vector2(1, 0.736264), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_31i4j"]
+curve = SubResource("Curve_xergh")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l5uwh"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
 direction = Vector3(0, -1, 0)
-spread = 20.0
-initial_velocity_min = 2.0
-initial_velocity_max = 4.0
+spread = 2.0
+initial_velocity_min = 30.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -10.0
+linear_accel_max = -2.23517e-06
+linear_accel_curve = SubResource("CurveTexture_q1m23")
+scale_min = 6.0
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_31i4j")
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+collision_use_scale = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l0kj7"]
 render_priority = -1
 transparency = 1
-albedo_color = Color(1, 1, 1, 0.188235)
+diffuse_mode = 3
+disable_fog = true
+albedo_color = Color(1, 1, 1, 0.0901961)
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
 [sub_resource type="SphereMesh" id="SphereMesh_6dowa"]
 material = SubResource("StandardMaterial3D_l0kj7")
 radius = 1.0
 height = 2.0
+radial_segments = 16
+rings = 8
 
 [node name="Rocket" type="CharacterBody3D"]
 script = ExtResource("1_hehsm")
@@ -74,7 +113,7 @@ mesh = ExtResource("2_wgehl")
 surface_material_override/0 = SubResource("StandardMaterial3D_d3eem")
 
 [node name="RocketExhaust" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.703494, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00337219, 0.188084, -0.0142193)
 material_override = SubResource("ShaderMaterial_a37k5")
 amount = 100
 lifetime = 0.75
@@ -83,9 +122,10 @@ process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
 
 [node name="RocketTrail" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.43811, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256104, -3.67355, -0.00268555)
 amount = 1000
-lifetime = 10.0
-interp_to_end = 1.0
+lifetime = 20.0
+collision_base_size = 1.0
+visibility_aabb = AABB(-33.3999, -940.053, -33.7817, 67.3138, 942.053, 67.29)
 process_material = SubResource("ParticleProcessMaterial_l5uwh")
 draw_pass_1 = SubResource("SphereMesh_6dowa")
