@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cai0v4a4srp5m"]
+[gd_scene load_steps=14 format=3 uid="uid://cai0v4a4srp5m"]
 
 [ext_resource type="Script" path="res://rocket.gd" id="1_hehsm"]
 [ext_resource type="ArrayMesh" uid="uid://dd0rs0uqarv2l" path="res://Mesh/rocket.tres" id="2_wgehl"]
+[ext_resource type="PackedScene" uid="uid://bg8h443q0tl6" path="res://Scenes/explosion.tscn" id="2_ws81c"]
 [ext_resource type="Shader" path="res://particles.gdshader" id="3_71fyw"]
 [ext_resource type="Script" path="res://thruster_particles.gd" id="4_jictr"]
 
@@ -46,6 +47,7 @@ material = SubResource("StandardMaterial3D_0evy7")
 
 [node name="Rocket" type="CharacterBody3D"]
 script = ExtResource("1_hehsm")
+explosion_scene = ExtResource("2_ws81c")
 
 [node name="RocketCollision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
