@@ -8,6 +8,7 @@ extends CharacterBody3D
 @export var parachute_drag: float = 2.0
 @export var rotation_smoothing: float = 2.0
 @export var parachute : PackedScene
+@export var next_scene_path: String = "res://earth-flyby/world.tscn"
 
 var velocity_y: float = 0.0
 var gravity: float = -9.8
@@ -21,12 +22,14 @@ var parachute_deployed: bool = false
 var has_landed: bool = false
 var engine_sputter_phase: int = 0
 var current_parachute: Node3D = null
+var boosters_detached: bool = false
 
 @onready var particles = $RocketExhaust
 @onready var trail = $RocketTrail
 @onready var initial_rotation = rotation
 
 func _ready():
+	randomize()
 	failure_time = randf_range(10.0, 15.0)
 
 func _physics_process(delta):
@@ -44,6 +47,9 @@ func _physics_process(delta):
 	else:
 		failing_flight(delta)
 		check_parachute()
+		
+	if !boosters_detached and time_elapsed >= 5.0:  # Adjust timing as needed
+		detach_boosters()
 	
 	move_and_slide()
 
@@ -225,9 +231,29 @@ func land():
 	rotation = final_rotation
 
 func start_failure():
-	is_failing = true
-	spin_velocity = Vector3(
-		randf_range(-1.0, 1.0),
-		randf_range(-1.0, 1.0),
-		randf_range(-1.0, 1.0)
-	) * 5.0
+	var roll = randf()
+	if roll < 0.5:
+		is_failing = true
+		spin_velocity = Vector3(
+			randf_range(-1.0, 1.0),
+			randf_range(-1.0, 1.0),
+			randf_range(-1.0, 1.0)
+		) * 5.0
+	else:
+		get_tree().change_scene_to_file(next_scene_path)
+		
+func detach_boosters():
+	var boosters = [ $"Booster", $"Booster2" ]
+	for booster in boosters:
+		if booster and booster is RigidBody3D:
+			booster.global_transform = booster.global_transform
+			
+			# Stop exhaust and trail
+			var exhaust = booster.get_node_or_null("BoosterExhaust")
+			var trail = booster.get_node_or_null("BoosterTrail")
+			if exhaust:
+				exhaust.emitting = false
+			if trail:
+				trail.emitting = false
+				
+			booster.gravity_scale = 1 # turn on the gravity
