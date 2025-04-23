@@ -1,0 +1,72 @@
+[gd_scene load_steps=13 format=3 uid="uid://cc7gqmm5ylj4x"]
+
+[ext_resource type="Texture2D" uid="uid://ctkvhsa3coeo4" path="res://earth-flyby/world.topo.bathy.200412.3x5400x2700.jpg" id="1_kr7gs"]
+[ext_resource type="Texture2D" uid="uid://5ysfyw6j6ris" path="res://earth-flyby/2k_stars_milky_way.jpg" id="2_jntjj"]
+[ext_resource type="Script" path="res://earth-flyby/player.gd" id="3_3bkgw"]
+[ext_resource type="PackedScene" uid="uid://1vbhge2ku7s6" path="res://earth-flyby/earth.glb" id="4_wfvmr"]
+[ext_resource type="Script" path="res://earth-flyby/starfield.gd" id="4_ymn2x"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hj62p"]
+panorama = ExtResource("2_jntjj")
+
+[sub_resource type="Sky" id="Sky_qgxg0"]
+sky_material = SubResource("PanoramaSkyMaterial_hj62p")
+
+[sub_resource type="Environment" id="Environment_dcb2k"]
+background_mode = 2
+sky = SubResource("Sky_qgxg0")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5lh0n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5it3y"]
+albedo_texture = ExtResource("1_kr7gs")
+
+[sub_resource type="SphereMesh" id="SphereMesh_xwr5b"]
+radius = 32.0
+height = 64.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r4y2r"]
+radius = 1.0
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dcb2k")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(-0.970603, 0, -0.240685, 0, 1, 0, 0.240685, 0, -0.970603, 7.811, -3.283, -52.793)
+script = ExtResource("3_3bkgw")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(0.996657, 0.0816906, -0.000828892, -0.0816906, 0.996452, -0.0202572, -0.000828922, 0.0202572, 0.999795, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("SphereShape3D_5lh0n")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.962008, -0.244958, 0.12057, -0.271444, -0.810706, 0.518724, -0.0293188, -0.531744, -0.846397, -254.922, 26.2144, -843.363)
+
+[node name="EarthBody" type="StaticBody3D" parent="."]
+
+[node name="Earth" type="MeshInstance3D" parent="EarthBody"]
+material_override = SubResource("StandardMaterial3D_5it3y")
+mesh = SubResource("SphereMesh_xwr5b")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EarthBody"]
+transform = Transform3D(32, 0, 0, 0, 32, 0, 0, 0, 32, 0, 0, 0)
+shape = SubResource("SphereShape3D_r4y2r")
+
+[node name="Sketchfab_Scene" parent="EarthBody" instance=ExtResource("4_wfvmr")]
+transform = Transform3D(165.87, 0, 0, 0, 165.87, 0, 0, 0, 165.87, 0, 0, 0)
+visible = false
+
+[node name="Starfield" type="MultiMeshInstance3D" parent="."]
+script = ExtResource("4_ymn2x")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="SpeedLabel" type="Label" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Speed: 0"
