@@ -109,6 +109,7 @@ radial_segments = 16
 rings = 8
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ex30y"]
+bounce = 1.0
 
 [sub_resource type="Curve" id="Curve_e5n6x"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -141,6 +142,7 @@ height = 2.0
 height = 8.214
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r7j40"]
+bounce = 1.0
 
 [node name="Rocket" type="CharacterBody3D"]
 script = ExtResource("1_hehsm")

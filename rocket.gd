@@ -243,10 +243,19 @@ func start_failure():
 		get_tree().change_scene_to_file(next_scene_path)
 		
 func detach_boosters():
+	boosters_detached = true
 	var boosters = [ $"Booster", $"Booster2" ]
 	for booster in boosters:
 		if booster and booster is RigidBody3D:
-			booster.global_transform = booster.global_transform
+			# Save the global transform before reparenting
+			var booster_transform = booster.global_transform
+
+			# Detach from the rocket and re-parent to scene root
+			remove_child(booster)
+			get_tree().current_scene.add_child(booster)
+
+			# Restore the saved transform so it stays in place
+			booster.global_transform = booster_transform
 			
 			# Stop exhaust and trail
 			var exhaust = booster.get_node_or_null("BoosterExhaust")
@@ -256,4 +265,4 @@ func detach_boosters():
 			if trail:
 				trail.emitting = false
 				
-			booster.gravity_scale = 1 # turn on the gravity
+			booster.gravity_scale = 1
