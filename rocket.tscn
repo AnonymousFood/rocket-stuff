@@ -145,11 +145,11 @@ height = 8.214
 radius = 0.6
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r7j40"]
-bounce = 1.0
 
 [node name="Rocket" type="CharacterBody3D"]
 script = ExtResource("1_hehsm")
 parachute = ExtResource("2_i8lea")
+explosion = ExtResource("6_a3gqf")
 
 [node name="RocketCollision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66784, 0)
@@ -217,9 +217,11 @@ shape = SubResource("CylinderShape3D_boopy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.05873)
 physics_material_override = SubResource("PhysicsMaterial_r7j40")
 gravity_scale = 0.0
+can_sleep = false
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("5_on45h")
+explosion_scene = ExtResource("6_a3gqf")
 
 [node name="BoosterModel" type="MeshInstance3D" parent="Booster2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0180075, 4.25614, -1.0302)
@@ -248,6 +250,5 @@ draw_pass_1 = SubResource("SphereMesh_6dowa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00232697, 5.77086, -1.4561)
 shape = SubResource("CylinderShape3D_boopy")
 
-[connection signal="body_entered" from="Booster" to="Booster" method="_on_body_entered"]
 [connection signal="body_shape_entered" from="Booster" to="Booster" method="_on_body_shape_entered"]
-[connection signal="body_shape_entered" from="Booster2" to="." method="_on_booster_2_body_shape_entered"]
+[connection signal="body_shape_entered" from="Booster2" to="Booster2" method="_on_body_shape_entered"]

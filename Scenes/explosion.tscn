@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://bg8h443q0tl6"]
+[gd_scene load_steps=25 format=3 uid="uid://bg8h443q0tl6"]
 
 [ext_resource type="Texture2D" uid="uid://degsonc1vcnxw" path="res://Flare00.PNG" id="1_jtiul"]
+[ext_resource type="Script" path="res://Scenes/explosion.gd" id="1_s8re5"]
 [ext_resource type="Material" uid="uid://obkf31f118a0" path="res://Mesh/mat00.tres" id="2_jresi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lo2n2"]
@@ -112,12 +113,14 @@ color = Color(0.306923, 0.306923, 0.306923, 1)
 [sub_resource type="QuadMesh" id="QuadMesh_bb46a"]
 
 [node name="Explosion" type="Node3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+script = ExtResource("1_s8re5")
 
 [node name="Sparks" type="GPUParticles3D" parent="."]
 material_override = SubResource("StandardMaterial3D_lo2n2")
 emitting = false
 amount = 20
-lifetime = 0.6
+lifetime = 1.2
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
@@ -129,7 +132,7 @@ material_override = ExtResource("2_jresi")
 emitting = false
 amount = 1
 amount_ratio = 0.1
-lifetime = 0.1
+lifetime = 0.2
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
@@ -140,7 +143,7 @@ draw_pass_1 = SubResource("QuadMesh_xe2xd")
 material_override = ExtResource("2_jresi")
 emitting = false
 amount = 13
-lifetime = 0.55
+lifetime = 1.1
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
@@ -151,7 +154,7 @@ draw_pass_1 = SubResource("QuadMesh_sh55m")
 material_override = ExtResource("2_jresi")
 emitting = false
 amount = 10
-lifetime = 2.0
+lifetime = 4.0
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60

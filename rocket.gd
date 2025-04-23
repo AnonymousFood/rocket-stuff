@@ -8,6 +8,7 @@ extends CharacterBody3D
 @export var parachute_drag: float = 2.0
 @export var rotation_smoothing: float = 2.0
 @export var parachute : PackedScene
+@export var explosion : PackedScene
 @export var next_scene_path: String = "res://earth-flyby/world.tscn"
 
 # General Variables
@@ -43,7 +44,7 @@ func _ready():
 	randomize()
 	
 	# 30% chance for one booster to fail at liftoff
-	if randf() < 0.0:
+	if randf() < 1.0:
 		var which = randi_range(0, 1)
 		booster_failure_index = which
 		print("Booster", which + 1, "failed to ignite!")
