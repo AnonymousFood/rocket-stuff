@@ -8,7 +8,7 @@ extends CharacterBody3D
 @export var parachute_drag: float = 2.0
 @export var rotation_smoothing: float = 2.0
 @export var parachute : PackedScene
-@export var explosion : PackedScene
+@export var explosion_scene : PackedScene
 @export var next_scene_path: String = "res://earth-flyby/world.tscn"
 
 # General Variables
@@ -20,12 +20,14 @@ var parachute_deployed: bool = false
 var current_parachute: Node3D = null
 
 # Failure stuff
+var fail_num: float
 var is_failing: bool = false
 var failure_time: float
 var spin_velocity: Vector3 = Vector3.ZERO
 var flicker_start: bool = false
 var particles_enabled: bool = true
 var engine_sputter_phase: int = 0
+var time_since_booster_failure: float = 0.0
 
 # Booster Failure Stuff
 var boosters_detached: bool = false
@@ -38,21 +40,24 @@ var booster_failure_spin_velocity: Vector3 = Vector3.ZERO
 @onready var boosterExhausts = [ $"Booster/BoosterTrail", $"Booster2/BoosterTrail" ]
 @onready var particles = $RocketExhaust
 @onready var trail = $RocketTrail
+@onready var rocket_collision = $RocketCollision
+@onready var rocket_model = $RocketModel
 @onready var initial_rotation = rotation
 
 func _ready():
 	randomize()
+	fail_num = randf()
 	
-	# 30% chance for one booster to fail at liftoff
-	if randf() < 1.0:
+	# 25% chance for one booster to fail at liftoff
+	if fail_num < 0.25:
 		var which = randi_range(0, 1)
 		booster_failure_index = which
 		print("Booster", which + 1, "failed to ignite!")
 		booster_failure_spin_enabled = true
 		booster_failure_spin_velocity = Vector3(
-			randf_range(3, 3),
-			randf_range(3, 3),
-			randf_range(3, 3)
+			randf_range(1, 1),
+			randf_range(1, 1),
+			randf_range(1, 1)
 		)
 		
 	failure_time = randf_range(10.0, 15.0)
@@ -60,12 +65,12 @@ func _ready():
 func _physics_process(delta):
 	time_elapsed += delta
 	
-	# Start failure sequence 2 seconds before failure
-	if time_elapsed >= failure_time - 2.0 and !flicker_start:
-		start_comedic_failure()
-	
-	if time_elapsed >= failure_time and !is_failing:
-		start_failure()
+	if not booster_failure_spin_enabled:
+		# Start failure sequence 2 seconds before failure
+		if time_elapsed >= failure_time - 2.0 and !flicker_start:
+			start_comedic_failure()
+		if time_elapsed >= failure_time and !is_failing:
+			start_failure()
 	
 	if booster_failure_spin_enabled and time_elapsed > 1:
 		apply_unbalanced_thrust(delta)
@@ -74,7 +79,6 @@ func _physics_process(delta):
 		check_parachute()
 	else:
 		normal_flight(delta)
-
 		
 	if !boosters_detached and time_elapsed >= 5.0:
 		detach_boosters()
@@ -95,7 +99,7 @@ func deploy_parachute():
 		current_parachute = parachute.instantiate()
 		add_child(current_parachute)
 		# Position and scale the parachute above the rocket
-		current_parachute.position = Vector3(0, 11.2, 0)
+		current_parachute.position = Vector3(0, 16, 0)
 		current_parachute.scale = Vector3(0.015, 0.015, 0.015)
 
 func start_comedic_failure():
@@ -174,9 +178,6 @@ func normal_flight(delta):
 	velocity_y += current_thrust * delta
 	velocity_y += gravity * delta
 	velocity = Vector3(wobble.x, velocity_y, wobble.z)
-	
-	rotation.x = wobble.z * 0.1
-	rotation.z = -wobble.x * 0.1
 
 func failing_flight(delta):
 	if has_landed:
@@ -200,11 +201,6 @@ func failing_flight(delta):
 		spin_velocity.y += randf_range(-2.0, 2.0) * delta
 		spin_velocity.z += randf_range(-2.0, 2.0) * delta
 		
-		# Apply spinning motion
-		rotate_x(spin_velocity.x * delta)
-		rotate_y(spin_velocity.y * delta)
-		rotate_z(spin_velocity.z * delta)
-		
 		velocity -= velocity * air_resistance * delta
 	
 	# Check for ground contact
@@ -212,7 +208,7 @@ func failing_flight(delta):
 		land()
 		return
 	
-	# Apply gravity and terminal velocity
+	# gravity/terminal velocity
 	var target_velocity = -20.0 if !parachute_deployed else -5.0
 	velocity_y = move_toward(velocity_y, target_velocity, delta * 5.0)
 	
@@ -234,7 +230,7 @@ func land():
 		remove_child(current_parachute)
 		get_tree().root.add_child(current_parachute)
 		# Set world position slightly behind rocket
-		current_parachute.global_position = global_position + Vector3(0, 0, 2)
+		current_parachute.global_position = global_position + Vector3(0, 0, 4)
 		# Add some physics so it can fall naturally
 		if current_parachute is RigidBody3D:
 			current_parachute.freeze = false
@@ -246,8 +242,7 @@ func land():
 	rotation = final_rotation
 
 func start_failure():
-	var roll = randf()
-	if roll < 0.5:
+	if fail_num < 0.5: # Further 25% chance for things to fail (25% check already passed)
 		is_failing = true
 		spin_velocity = Vector3(
 			randf_range(-1.0, 1.0),
@@ -261,6 +256,9 @@ func detach_boosters():
 	boosters_detached = true
 	for booster in boosters:
 		if booster and booster is RigidBody3D:
+			# Freeze physics before detaching
+			booster.sleeping = true
+			booster.freeze = true
 			# Save the global transform before reparenting
 			var booster_transform = booster.global_transform
 
@@ -281,31 +279,54 @@ func detach_boosters():
 				
 			booster.gravity_scale = 1
 			
+			await get_tree().create_timer(0.1).timeout
+			booster.freeze = false
+			booster.sleeping = false
+			
 			
 func apply_unbalanced_thrust(delta: float):
-	var wobble = Vector3(
-		sin(time_elapsed * wobble_speed) * wobble_strength,
-		0,
-		cos(time_elapsed * wobble_speed * 1.3) * wobble_strength
-	)
+	time_since_booster_failure += delta
 	
-	# Apply radial spin torque based on failed booster side
-	var spin_direction = 1.0 if booster_failure_index == 1 else -1.0
-	spin_velocity += Vector3(spin_direction * 1.0, 0, 0) * delta
-	
-	# Stop exhaust and trail
-	var exhaust = boosterExhausts[booster_failure_index]
-	var trail = boosterTrails[booster_failure_index]
-	if exhaust:
-		exhaust.emitting = false
-	if trail:
-		trail.emitting = false
+	# Stop exhaust and trail once
+	if booster_failure_index != -1:
+		var exhaust = boosterExhausts[booster_failure_index]
+		var trail = boosterTrails[booster_failure_index]
+		if exhaust and exhaust.emitting:
+			exhaust.emitting = false
+		if trail and trail.emitting:
+			trail.emitting = false
 
-	# Apply velocity and rotation
-	velocity_y += thrust_power * delta
-	velocity_y += gravity * delta
-	velocity = Vector3(wobble.x, velocity_y, wobble.z)
-	
+	# Apply wobble spin torque
+	var spin_direction = 1.0 if booster_failure_index == 1 else -1.0
+	spin_velocity += Vector3(spin_direction * 1.2, 0, 0) * delta
+
+	# Rotate rocket based on spin torque
 	rotate_x(spin_velocity.x * delta)
 	rotate_y(spin_velocity.y * delta)
 	rotate_z(spin_velocity.z * delta)
+
+	# If still within powered phase, apply upward velocity
+	if time_since_booster_failure < 2.0:
+		velocity.y += thrust_power * delta
+	else:
+		# Gravity starts pulling it down
+		velocity.y += gravity * delta
+
+	# Simulate drifting off course based on orientation
+	var drift_direction = -transform.basis.z.normalized()
+	velocity.x = drift_direction.x * wobble_strength
+	velocity.z = drift_direction.z * wobble_strength
+	
+	set_particles(false)
+
+	# Move the rocket
+	translate(velocity * delta)
+
+func _on_rocket_detect_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	if "Ground" in body.name and not has_landed:
+		if not boosters_detached:
+			detach_boosters()
+		var explosion_instance = explosion_scene.instantiate()
+		add_child(explosion_instance)
+		explosion_instance.global_transform.origin = rocket_collision.global_transform.origin
+		rocket_model.visible = false
