@@ -330,3 +330,8 @@ func _on_rocket_detect_body_shape_entered(body_rid, body, body_shape_index, loca
 		add_child(explosion_instance)
 		explosion_instance.global_transform.origin = rocket_collision.global_transform.origin
 		rocket_model.visible = false
+
+func get_velocityY():
+	return velocity_y
+func get_time():
+	return time_elapsed
