@@ -1,0 +1,151 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Texture2D" uid="uid://xxxxx" path="res://textures/window.png" id="1_windows"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+top_radius = 4.0
+bottom_radius = 4.0
+height = 1.0
+radial_segments = 32
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_column"]
+top_radius = 4.0
+bottom_radius = 4.0
+height = 18.0
+radial_segments = 32
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cab_bottom"]
+top_radius = 10.0
+bottom_radius = 10.0
+height = 2.8
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cab_windows"]
+top_radius = 10.0
+bottom_radius = 10.0
+height = 2.8
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cab_top"]
+top_radius = 10.0
+bottom_radius = 10.0
+height = 1.4
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_window_frame"]
+top_radius = 9.9
+bottom_radius = 9.9
+height = 0.1
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_roof"]
+top_radius = 0.0
+bottom_radius = 10.5
+height = 2.0
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_inner_wall"]
+top_radius = 9.6
+bottom_radius = 9.6
+height = 7.0
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_floor"]
+top_radius = 9.6
+bottom_radius = 9.6
+height = 0.2
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ceiling"]
+top_radius = 9.6
+bottom_radius = 9.6
+height = 0.2
+radial_segments = 64
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_concrete"]
+albedo_color = Color(0.75, 0.75, 0.75, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glass"]
+albedo_color = Color(0.3, 0.5, 0.8, 1)
+metallic = 0.8
+roughness = 0.1
+transparency = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+metallic = 1.0
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_roof"]
+albedo_color = Color(0.3, 0.3, 0.35, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_inner"]
+albedo_color = Color(0.85, 0.85, 0.88, 1)
+roughness = 1.0
+cull_mode = 0
+
+[node name="AirTrafficControlTower" type="Node3D"]
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_base")
+surface_material_override/0 = SubResource("StandardMaterial3D_concrete")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Column" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_column")
+surface_material_override/0 = SubResource("StandardMaterial3D_concrete")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+
+[node name="CabExterior" type="Node3D" parent="."]
+
+[node name="BottomWall" type="MeshInstance3D" parent="CabExterior"]
+mesh = SubResource("CylinderMesh_cab_bottom")
+surface_material_override/0 = SubResource("StandardMaterial3D_concrete")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.4, 0)
+
+[node name="Windows" type="MeshInstance3D" parent="CabExterior"]
+mesh = SubResource("CylinderMesh_cab_windows")
+surface_material_override/0 = SubResource("StandardMaterial3D_glass")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23.2, 0)
+
+[node name="WindowFrameBottom" type="MeshInstance3D" parent="CabExterior"]
+mesh = SubResource("CylinderMesh_window_frame")
+surface_material_override/0 = SubResource("StandardMaterial3D_frame")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 21.8, 0)
+
+[node name="WindowFrameMiddle" type="MeshInstance3D" parent="CabExterior"]
+mesh = SubResource("CylinderMesh_window_frame")
+surface_material_override/0 = SubResource("StandardMaterial3D_frame")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23.2, 0)
+
+[node name="WindowFrameTop" type="MeshInstance3D" parent="CabExterior"]
+mesh = SubResource("CylinderMesh_window_frame")
+surface_material_override/0 = SubResource("StandardMaterial3D_frame")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.6, 0)
+
+[node name="TopWall" type="MeshInstance3D" parent="CabExterior"]
+mesh = SubResource("CylinderMesh_cab_top")
+surface_material_override/0 = SubResource("StandardMaterial3D_concrete")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25.3, 0)
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_roof")
+surface_material_override/0 = SubResource("StandardMaterial3D_roof")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27, 0)
+
+[node name="CabInterior" type="Node3D" parent="."]
+
+[node name="InnerWall" type="MeshInstance3D" parent="CabInterior"]
+mesh = SubResource("CylinderMesh_inner_wall")
+surface_material_override/0 = SubResource("StandardMaterial3D_inner")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22.5, 0)
+
+[node name="Floor" type="MeshInstance3D" parent="CabInterior"]
+mesh = SubResource("CylinderMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_inner")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19.3, 0)
+
+[node name="Ceiling" type="MeshInstance3D" parent="CabInterior"]
+mesh = SubResource("CylinderMesh_ceiling")
+surface_material_override/0 = SubResource("StandardMaterial3D_inner")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26.9, 0)
