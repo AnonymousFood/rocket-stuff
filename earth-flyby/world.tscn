@@ -67,6 +67,7 @@ script = ExtResource("4_ymn2x")
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="SpeedLabel" type="Label" parent="HUD"]
+unique_name_in_owner = true
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Speed: 0"
