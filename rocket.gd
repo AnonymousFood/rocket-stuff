@@ -18,6 +18,7 @@ var time_elapsed: float = 0.0
 var has_landed: bool = false
 var parachute_deployed: bool = false
 var current_parachute: Node3D = null
+var prelaunch_engines_started: bool = false
 
 # Failure stuff
 var fail_num: float
@@ -47,9 +48,36 @@ var booster_failure_spin_velocity: Vector3 = Vector3.ZERO
 func _ready():
 	randomize()
 	fail_num = randf()
+	failure_time = randf_range(30.0, 40.0)
+
+func _physics_process(delta):
+	# Update time
+	time_elapsed += delta
 	
-	# 25% chance for one booster to fail at liftoff
-	if fail_num < 0.25:
+	# Check for input to override failure chance
+	if Input.is_action_just_pressed("fail_low"):  # Press 'b' for booster fail
+		fail_num = 0.1
+		print("Fail Low Activated")
+	elif Input.is_action_just_pressed("fail_high"):  # Press 'f' to run out of fuel
+		fail_num = 0.6
+		print("Fail High Activated")
+	elif Input.is_action_just_pressed("succeed"):  # Press 'g' to succeed
+		fail_num = 1.0
+		print("Success Activated")
+	elif Input.is_action_just_pressed("reload_scene"):
+		reload_current_scene()
+		
+	if not prelaunch_engines_started and time_elapsed >= 4.0:
+		prelaunch_engines_started = true
+		print("Engines warming up...")
+		start_engine_particles()
+	
+	# Wait until countdown finishes (10 seconds)
+	if time_elapsed < 10.0:
+		return
+		
+		# 25% chance for one booster to fail at liftoff
+	if fail_num < 0.25 and booster_failure_index == -1:
 		var which = randi_range(0, 1)
 		booster_failure_index = which
 		print("Booster", which + 1, "failed to ignite!")
@@ -59,20 +87,15 @@ func _ready():
 			randf_range(1, 1),
 			randf_range(1, 1)
 		)
-		
-	failure_time = randf_range(10.0, 15.0)
 
-func _physics_process(delta):
-	time_elapsed += delta
-	
+	# Everything below this line is launch logic
 	if not booster_failure_spin_enabled:
-		# Start failure sequence 2 seconds before failure
 		if time_elapsed >= failure_time - 2.0 and !flicker_start:
 			start_comedic_failure()
 		if time_elapsed >= failure_time and !is_failing:
 			start_failure()
-	
-	if booster_failure_spin_enabled and time_elapsed > 1:
+
+	if booster_failure_spin_enabled and time_elapsed > 10:
 		apply_unbalanced_thrust(delta)
 	elif is_failing:
 		failing_flight(delta)
@@ -80,7 +103,7 @@ func _physics_process(delta):
 	else:
 		normal_flight(delta)
 		
-	if !boosters_detached and time_elapsed >= 5.0:
+	if !boosters_detached and time_elapsed >= 20.0:
 		detach_boosters()
 	
 	move_and_slide()
@@ -321,6 +344,16 @@ func apply_unbalanced_thrust(delta: float):
 
 	# Move the rocket
 	translate(velocity * delta)
+	
+func start_engine_particles():
+	# Turn on center rocket particles
+	set_particles(true)
+	
+	# Turn on booster trails and exhausts
+	for trail in boosterTrails:
+		trail.emitting = true
+	for exhaust in boosterExhausts:
+		exhaust.emitting = true
 
 func _on_rocket_detect_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if "Ground" in body.name and not has_landed:
@@ -330,6 +363,12 @@ func _on_rocket_detect_body_shape_entered(body_rid, body, body_shape_index, loca
 		add_child(explosion_instance)
 		explosion_instance.global_transform.origin = rocket_collision.global_transform.origin
 		rocket_model.visible = false
+		
+func reload_current_scene():
+	var current_scene = get_tree().current_scene
+	var scene_path = current_scene.scene_file_path
+	var new_scene = load(scene_path)
+	get_tree().change_scene_to_packed(new_scene)
 
 func get_velocityY():
 	return velocity_y

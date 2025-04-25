@@ -8,7 +8,7 @@ var rotation_target := Vector3.ZERO
 var current_rotation := Vector3.ZERO
 var default_fov = 75.0
 
-# Mouse stuff is WIP
+# Mouse stuff
 var mouse_sensitivity = 0.3
 var enable_mouse_control = false
 
@@ -168,9 +168,6 @@ func _process(delta):
 		# Update rotation targets (in world space)
 		rotation_target.y += rotation_input.x
 		rotation_target.x += rotation_input.y
-		
-		# Clamp vertical rotation to prevent flipping
-		#rotation_target.x = clamp(rotation_target.x, -1.2, 1.2)
 		
 		# Smooth rotation
 		#current_rotation = current_rotation.lerp(rotation_target, delta * 10.0) 

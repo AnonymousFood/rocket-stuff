@@ -176,15 +176,17 @@ surface_material_override/0 = SubResource("StandardMaterial3D_d3eem")
 [node name="RocketExhaust" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00337219, 0.188084, -0.0142193)
 material_override = SubResource("ShaderMaterial_a37k5")
-amount = 100
+emitting = false
+amount = 50
 lifetime = 0.75
 collision_base_size = 1.0
 process_material = SubResource("ParticleProcessMaterial_n2pvn")
 draw_pass_1 = SubResource("SphereMesh_87v3g")
 
 [node name="RocketTrail" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256104, -3.67355, -0.00268555)
-amount = 1000
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0438771, 0.164703, -0.00268555)
+emitting = false
+amount = 500
 lifetime = 20.0
 collision_base_size = 1.0
 visibility_aabb = AABB(-33.3999, -940.053, -33.7817, 67.3138, 942.053, 67.29)
@@ -206,14 +208,16 @@ mesh = ExtResource("5_ajmhi")
 [node name="BoosterExhaust" type="GPUParticles3D" parent="Booster"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00337219, 0.402875, -1.51223)
 material_override = SubResource("ShaderMaterial_a37k5")
-amount = 100
+emitting = false
+amount = 50
 lifetime = 0.5
 collision_base_size = 1.0
 process_material = SubResource("ParticleProcessMaterial_0ec3a")
 draw_pass_1 = SubResource("SphereMesh_asgt8")
 
 [node name="BoosterTrail" type="GPUParticles3D" parent="Booster"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256104, -1.76694, -1.53832)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0110675, 0.419898, -1.53832)
+emitting = false
 amount = 1000
 lifetime = 20.0
 collision_base_size = 1.0
@@ -242,14 +246,16 @@ skeleton = NodePath("../../Booster2")
 [node name="BoosterExhaust" type="GPUParticles3D" parent="Booster2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00337219, 0.402875, -1.56894)
 material_override = SubResource("ShaderMaterial_a37k5")
-amount = 100
+emitting = false
+amount = 50
 lifetime = 0.5
 collision_base_size = 1.0
 process_material = SubResource("ParticleProcessMaterial_0ec3a")
 draw_pass_1 = SubResource("SphereMesh_asgt8")
 
 [node name="BoosterTrail" type="GPUParticles3D" parent="Booster2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.256104, -1.87117, -1.50763)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0150354, 0.39326, -1.55031)
+emitting = false
 amount = 1000
 lifetime = 20.0
 collision_base_size = 1.0
