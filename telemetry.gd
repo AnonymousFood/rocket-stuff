@@ -20,13 +20,12 @@ func _process(delta: float) -> void:
 	var acceleration = 0
 	if time != 0:
 		speed = (distance/time)
+		acceleration = -1 * round((speed - prev_speed) / time)
 		if speed < 5:
 			speed = round(speed)
-			acceleration = round((speed - prev_speed) / time)
 			prev_speed = speed
 		else:
 			speed = round(speed) * 100 
-			acceleration = round((speed - prev_speed) / time)
 			prev_speed = speed
 	if speed != 0:
 		label.text = "Speed: " + str(speed) + " km/h \n" + "Acceleration: " + str(acceleration) + " m/s \n"
